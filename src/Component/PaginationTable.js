@@ -20,13 +20,16 @@ const PaginationTable = () => {
     headerGroups,
     prepareRow,
     page,
+    setGlobalFilter,
+    state,
     previousPage,
     nextPage,
     canNextPage,
     canPreviousPage,
     pageOptions,
-    state,
-    setGlobalFilter,
+    gotoPage,
+    pageCount,
+    setPageSize,
   } = useTable(
     {
       columns,
@@ -38,7 +41,7 @@ const PaginationTable = () => {
     usePagination
   );
 
-  const { globalFilter, pageIndex } = state;
+  const { globalFilter, pageIndex, pageSize } = state;
 
   return (
     <>
@@ -84,6 +87,17 @@ const PaginationTable = () => {
             {pageIndex + 1} of {pageOptions.length}
           </strong>{" "}
         </span>
+        <select value={pageSize} onChange={(e) => setPageSize(+e.target.value)}>
+          {[10, 20, 30, 40, 50].map((pageSize) => (
+            <option key={pageSize} value={pageSize}>
+              {" "}
+              Show {pageSize}
+            </option>
+          ))}
+        </select>
+        <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+          {"<<"}
+        </button>
         <button onClick={() => previousPage()} disabled={!canPreviousPage}>
           {" "}
           previous{" "}
@@ -91,6 +105,9 @@ const PaginationTable = () => {
         <button onClick={() => nextPage()} disabled={!canNextPage}>
           {" "}
           next{" "}
+        </button>
+        <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+          {">>"}
         </button>
       </div>
     </>
