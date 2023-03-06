@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import BasicTable from "./Component/BasicTable";
 
 const App = () => {
   return (
-    <div>App</div>
-  )
-}
+    <div>
+      <BasicTable />
+    </div>
+  );
+};
 
-export default App
+export default App;
