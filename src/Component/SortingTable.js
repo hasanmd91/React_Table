@@ -1,18 +1,21 @@
 import React, { useMemo } from "react";
-import { useTable } from "react-table";
+import { useTable, useSortBy } from "react-table";
 import { COLUMNS } from "./Columns";
 import Mock_Data from "../Data/MOCK_DATA.json";
 
-const BasicTable = () => {
+const SortingTable = () => {
   //useMemo is a react hook that can memorize an operation and optimize the performanc.
   const columns = useMemo(() => COLUMNS, []);
   const data = useMemo(() => Mock_Data, []);
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({
-      columns,
-      data,
-    });
+    useTable(
+      {
+        columns,
+        data,
+      },
+      useSortBy
+    );
 
   return (
     <table {...getTableProps()}>
@@ -20,7 +23,13 @@ const BasicTable = () => {
         {headerGroups.map((headergroup) => (
           <tr {...headergroup.getHeaderGroupProps()}>
             {headergroup.headers.map((column) => (
-              <th {...column.getHeaderProps()}> {column.render("Header")}</th>
+              <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                {" "}
+                {column.render("Header")}
+                <span>
+                  {column.isSorted ? (column.isSortedDesc ? "x" : "y") : ""}
+                </span>
+              </th>
             ))}
           </tr>
         ))}
@@ -42,4 +51,4 @@ const BasicTable = () => {
   );
 };
 
-export default BasicTable;
+export default SortingTable;
