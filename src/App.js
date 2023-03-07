@@ -1,12 +1,16 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 // import FilteringTable from "./Component/FilteringTable";
-import PaginationTable from "./Component/PaginationTable";
+// import PaginationTablei from "./Component/PaginationTable";
+
+const PaginationTable = lazy(() => import("./Component/PaginationTable"));
 
 const App = () => {
   return (
-    <div>
-      <PaginationTable />
-    </div>
+    <>
+      <Suspense fallback={<div>...Loading </div>}>
+        <PaginationTable />
+      </Suspense>
+    </>
   );
 };
 
